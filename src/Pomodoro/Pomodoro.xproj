@@ -14,6 +14,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <SchemaVersion>2.0</SchemaVersion>
+    <ApplicationInsightsResourceId>/subscriptions/836191b9-d9f1-4a66-ad2f-74b2a2d79065/resourcegroups/Default-ApplicationInsights-CentralUS/providers/microsoft.insights/components/Pomodoro</ApplicationInsightsResourceId>
   </PropertyGroup>
   <ItemGroup>
     <DnxInvisibleContent Include="bower.json" />
