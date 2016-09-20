@@ -15,8 +15,7 @@ namespace Pomodoro.Controllers
 
         public IActionResult Index()
         {
-            ViewData["RowsCount"] = _context.Tomatoes.Count();
-            return View();
+            return View(_context.Tomatoes);
         }
         public IActionResult Create()
         {

@@ -1,7 +1,30 @@
-﻿@{
-    ViewData["Title"] = "Pomodoro";
+﻿@model IEnumerable<Pomodoro.Database.Tomato>
+
+@{
+    ViewBag.Title = "Blogs";
 }
 
-<h2>Pomodoro site for you</h2>
+<h2>Tomatoes</h2>
 
-<p>If yos see this DB must be created: @ViewData["RowsCount"].</p>
+<p>
+    <a asp-controller="Home" asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <tr>
+        <th>Id</th>
+        <th>Url</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartedAt)
+            </td>
+        </tr>
+    }
+</table>
