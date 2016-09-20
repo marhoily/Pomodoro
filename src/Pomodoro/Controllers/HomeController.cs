@@ -1,27 +1,43 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using Pomodoro.Database;
 
 namespace Pomodoro.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly PomodoroContext _context;
+
+        public HomeController(PomodoroContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
+            ViewData["RowsCount"] = _context.Tomatoes.Count();
             return View();
         }
-
-        public IActionResult About()
+        public IActionResult Create()
         {
-            ViewData["Message"] = "Your application description page.";
-
             return View();
         }
 
-        public IActionResult Contact()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Tomato tomato)
         {
-            ViewData["Message"] = "Your contact page.";
+            if (ModelState.IsValid)
+            {
+                _context.Tomatoes.Add(tomato);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
 
-            return View();
+            return View(tomato);
         }
+
+
 
         public IActionResult Error()
         {

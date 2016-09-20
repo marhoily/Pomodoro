@@ -24,6 +24,7 @@ namespace Pomodoro
                 builder.AddApplicationInsightsSettings(developerMode: true);
             }
             Configuration = builder.Build();
+        
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -35,10 +36,11 @@ namespace Pomodoro
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddMvc();
-         ///   var connection = @"Server=(localdb)\mssqllocaldb;Database=EFGetStarted.AspNetCore.NewDb;Trusted_Connection=True;";
+
             services.AddDbContext<PomodoroContext>(
                 options => options.UseSqlServer(
                     Configuration.GetConnectionString("PomodoroDb")));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,6 +55,15 @@ namespace Pomodoro
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
+
+                using (var serviceScope = app.ApplicationServices
+                    .GetRequiredService<IServiceScopeFactory>()
+                    .CreateScope())
+                {
+                    serviceScope.ServiceProvider
+                        .GetService<PomodoroContext>()
+                        .Database.Migrate();
+                }
             }
             else
             {
