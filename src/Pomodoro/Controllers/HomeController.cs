@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Pomodoro.Database;
 
@@ -20,6 +21,16 @@ namespace Pomodoro.Controllers
         public IActionResult Create()
         {
             return View();
+        }
+        public IActionResult CreateToday()
+        {
+            _context.Tomatoes.Add(
+                new Tomato
+                {
+                    StartedAt = DateTime.Today
+                });
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
